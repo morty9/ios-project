@@ -20,7 +20,7 @@
 @synthesize description_ = description_v;
 @synthesize thumbnails_ = thumbnails_v;
 
-- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSURL*)thumbnails_video {
+- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video {
     self = [super init];
     if(self != nil) {
         self.id_ = id_video;

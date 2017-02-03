@@ -15,7 +15,7 @@
     NSString* title_v;
     NSString* date_v;
     NSString* description_v;
-    NSURL* thumbnails_v;
+    NSString* thumbnails_v;
     
 }
 
@@ -23,8 +23,8 @@
 @property (nonatomic, strong) NSString* title_;
 @property (nonatomic, strong) NSString* date_;
 @property (nonatomic, strong) NSString* description_;
-@property (nonatomic, strong) NSURL* thumbnails_;
+@property (nonatomic, strong) NSString* thumbnails_;
 
-- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSURL*)thumbnails_video;
+- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video;
 
 @end
