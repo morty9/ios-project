@@ -12,9 +12,10 @@
 #import "CellTableView.h"
 #import "VideoViewController.h"
 
-@interface ListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate>
 {
     NSMutableArray<DataVideo*> *video_list ;
+    NSArray *searchResults;
 }
 @end
 
@@ -72,6 +73,7 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -80,7 +82,12 @@
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return video_list.count;
+    
+    if(tableView == self.searchDisplayController.searchResultsTableView) {
+        return searchResults.count;
+    }else {
+        return video_list.count;
+    }
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -94,10 +101,20 @@
         cell = [nib objectAtIndex:0];
     }
     
+    DataVideo* dataVideo = nil;
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        dataVideo = [searchResults objectAtIndex:indexPath.row];
+    } else {
+        dataVideo = [video_list objectAtIndex:indexPath.row];
+    }
+    
+    
     cell.layer.borderWidth = 2.0;
     cell.layer.borderColor = [UIColor grayColor].CGColor;
-    cell.titleCell.text = [[video_list objectAtIndex:indexPath.row] title_];
-    cell.detailsCell.text = [[video_list objectAtIndex:indexPath.row] date_];
+    //cell.titleCell.text = [[video_list objectAtIndex:indexPath.row] title_];
+    cell.titleCell.text = dataVideo.title_;
+    //cell.detailsCell.text = [[video_list objectAtIndex:indexPath.row] date_];
+    cell.detailsCell.text = dataVideo.date_;
     NSURL* urlImage = [NSURL URLWithString: [[video_list objectAtIndex:indexPath.row] thumbnails_]];
     NSData* img = [[NSData alloc] initWithContentsOfURL: urlImage];
     cell.thumbnailCell.image = [UIImage imageWithData:img];
@@ -123,6 +140,22 @@
 {
     return 330;
 }
+
+
+-(BOOL)searchDisplayController:(UISearchController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    
+    return YES;
+}
+
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", searchText];
+    searchResults = [[video_list valueForKey:@"title"] filteredArrayUsingPredicate:resultPredicate];
+}
+
 
 /*
 #pragma mark - Navigation
