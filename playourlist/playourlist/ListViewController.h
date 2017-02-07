@@ -11,7 +11,6 @@
 @interface ListViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-//@property (strong, nonatomic) UISearchController *searchController;
+@property (strong, nonatomic) UISearchController *searchController;
 
 @end

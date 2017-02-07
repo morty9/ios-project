@@ -12,10 +12,11 @@
 #import "CellTableView.h"
 #import "VideoViewController.h"
 
-@interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate>
+@interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate>
 {
     NSMutableArray<DataVideo*> *video_list ;
-    NSMutableArray *searchResults;
+    //NSMutableArray *searchResults;
+    NSArray *searchResults;
     NSArray* finalResults;
 }
 @end
@@ -74,6 +75,15 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.delegate = self;
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    self.searchController.searchBar.scopeButtonTitles = @[];
+    self.definesPresentationContext = YES;
+    [self.searchController.searchBar sizeToFit];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -141,23 +151,60 @@
     return 330;
 }
 
-
--(BOOL)searchDisplayController:(UISearchController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    NSLog(@"should reload");
-    [self filterContentForSearchText:searchString scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
-    
-    return YES;
+    NSLog(@"update search");
+    NSString *searchString = searchController.searchBar.text;
+    [self searchForText:searchString];
+    [self.tableView reloadData];
+}
+
+- (void)searchForText:(NSString*)searchText
+{
+    NSLog(@"search for text");
+    //searchResults = [NSMutableArray new];
+    //for(DataVideo* r in video_list) {
+    //    [searchResults addObject:[r title_]];
+    //}
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
+    //finalResults = [searchResults filteredArrayUsingPredicate:predicate];
+    searchResults = [video_list filteredArrayUsingPredicate:predicate];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
+    NSLog(@"search bar");
+    [self updateSearchResultsForSearchController:self.searchController];
 }
 
 
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+/*-(BOOL)searchDisplayController:(UISearchController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    NSLog(@"should reload");
+    [self filterContentForSearchText:searchString scope:[[self.searchController.searchBar scopeButtonTitles] objectAtIndex:[self.searchController.searchBar selectedScopeButtonIndex]]];
+    
+    return YES;
+}*/
+
+/*- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+
+- (void) updateSearchResultsForSearchController:(UISearchController *)searchController {
+    NSString* searchText = searchController.searchBar.text;
+    NSLog(@"%@",searchText);
+    [self searchForText:searchText];
+    [self.tableView reloadData];
+}*/
+
+/*- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
     searchResults = [NSMutableArray new];
     for(DataVideo* r in video_list) {
         [searchResults addObject:[r title_]];
     }
-    //NSLog(@"source: %@", searchResults );
+    NSLog(@"source: %@", searchResults );
     NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", searchText];
     NSLog(@"predicate %@",resultPredicate);
     //searchResults = [[video_list]filteredArrayUsingPredicate:resultPredicate];
@@ -165,7 +212,8 @@
     finalResults = searchResults;
     //NSLog(@"results %@",[searchResults filteredArrayUsingPredicate:resultPredicate]);
     NSLog(@"results %@",[searchResults filteredArrayUsingPredicate:resultPredicate]);
-}
+    
+}*/
 
 
 /*
