@@ -93,7 +93,13 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if(tableView == self.searchDisplayController.searchResultsTableView) {
+    /*if(tableView == self.searchDisplayController.searchResultsTableView) {
+        return searchResults.count;
+    }else {
+        return video_list.count;
+    }*/
+    
+    if(self.searchController.isActive) {
         return searchResults.count;
     }else {
         return video_list.count;
@@ -112,9 +118,15 @@
     }
     
     DataVideo* dataVideo = nil;
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
+    /*if (tableView == self.searchDisplayController.searchResultsTableView) {
         dataVideo = [searchResults objectAtIndex:indexPath.row];
     } else {
+        dataVideo = [video_list objectAtIndex:indexPath.row];
+    }*/
+    
+    if(self.searchController.isActive) {
+        dataVideo = [searchResults objectAtIndex:indexPath.row];
+    }else {
         dataVideo = [video_list objectAtIndex:indexPath.row];
     }
     
@@ -168,6 +180,7 @@
     //}
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
     //finalResults = [searchResults filteredArrayUsingPredicate:predicate];
+    NSLog(@"%@", [video_list filteredArrayUsingPredicate:predicate]);
     searchResults = [video_list filteredArrayUsingPredicate:predicate];
 }
 

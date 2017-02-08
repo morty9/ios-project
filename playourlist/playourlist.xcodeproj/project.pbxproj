@@ -11,8 +11,6 @@
 		082009331E44BA8E0059255F /* CellTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082009311E44BA8E0059255F /* CellTableView.xib */; };
 		082009371E44CE1D0059255F /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 082009351E44CE1D0059255F /* VideoViewController.m */; };
 		082009381E44CE1D0059255F /* VideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082009361E44CE1D0059255F /* VideoViewController.xib */; };
-		0820093B1E44D6850059255F /* YTPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0820093A1E44D6850059255F /* YTPlayerView.m */; };
-		0820093F1E44D7750059255F /* Assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0820093E1E44D7750059255F /* Assets.bundle */; };
 		084AA8E81E40E9BF000A9268 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 084AA8E71E40E9BF000A9268 /* main.m */; };
 		084AA8EB1E40E9BF000A9268 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 084AA8EA1E40E9BF000A9268 /* AppDelegate.m */; };
 		084AA8F31E40E9BF000A9268 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 084AA8F21E40E9BF000A9268 /* Assets.xcassets */; };
@@ -20,7 +18,8 @@
 		084AA9001E40E9FA000A9268 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084AA8FE1E40E9FA000A9268 /* ListViewController.m */; };
 		084AA9011E40E9FA000A9268 /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 084AA8FF1E40E9FA000A9268 /* ListViewController.xib */; };
 		08C6F1B11E41058B0018440E /* DataVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 08C6F1B01E41058B0018440E /* DataVideo.m */; };
-		08FF29461E4627D800FD3F77 /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FF29451E4627D800FD3F77 /* SearchResultsViewController.m */; };
+		E4E0F9E71E4B12BF00F3AEA0 /* Assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E4E0F9E61E4B12BF00F3AEA0 /* Assets.bundle */; };
+		E4E0F9ED1E4B12EE00F3AEA0 /* YTPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E0F9EC1E4B12EE00F3AEA0 /* YTPlayerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,9 +29,6 @@
 		082009341E44CE1D0059255F /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
 		082009351E44CE1D0059255F /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
 		082009361E44CE1D0059255F /* VideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoViewController.xib; sourceTree = "<group>"; };
-		082009391E44D6850059255F /* YTPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTPlayerView.h; path = "../../../../../Downloads/youtube-ios-player-helper-master/Classes/YTPlayerView.h"; sourceTree = "<group>"; };
-		0820093A1E44D6850059255F /* YTPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTPlayerView.m; path = "../../../../../Downloads/youtube-ios-player-helper-master/Classes/YTPlayerView.m"; sourceTree = "<group>"; };
-		0820093E1E44D7750059255F /* Assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Assets.bundle; path = "../../../../../Downloads/youtube-ios-player-helper-master/youtube-ios-player-helper/Assets.bundle"; sourceTree = "<group>"; };
 		084AA8E31E40E9BF000A9268 /* playourlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = playourlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		084AA8E71E40E9BF000A9268 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		084AA8E91E40E9BF000A9268 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -46,8 +42,9 @@
 		084AA9021E40EF90000A9268 /* APIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIKey.h; sourceTree = "<group>"; };
 		08C6F1AF1E41058B0018440E /* DataVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataVideo.h; sourceTree = "<group>"; };
 		08C6F1B01E41058B0018440E /* DataVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataVideo.m; sourceTree = "<group>"; };
-		08FF29441E4627D800FD3F77 /* SearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchResultsViewController.h; path = "../../../../../Downloads/Table-Search-2015-master/Table Search/SearchResultsViewController.h"; sourceTree = "<group>"; };
-		08FF29451E4627D800FD3F77 /* SearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchResultsViewController.m; path = "../../../../../Downloads/Table-Search-2015-master/Table Search/SearchResultsViewController.m"; sourceTree = "<group>"; };
+		E4E0F9E61E4B12BF00F3AEA0 /* Assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Assets.bundle; sourceTree = "<group>"; };
+		E4E0F9EB1E4B12EE00F3AEA0 /* YTPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTPlayerView.h; sourceTree = "<group>"; };
+		E4E0F9EC1E4B12EE00F3AEA0 /* YTPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTPlayerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +77,6 @@
 		084AA8E51E40E9BF000A9268 /* playourlist */ = {
 			isa = PBXGroup;
 			children = (
-				082009391E44D6850059255F /* YTPlayerView.h */,
-				0820093A1E44D6850059255F /* YTPlayerView.m */,
 				084AA8E91E40E9BF000A9268 /* AppDelegate.h */,
 				084AA8EA1E40E9BF000A9268 /* AppDelegate.m */,
 				084AA8F21E40E9BF000A9268 /* Assets.xcassets */,
@@ -100,9 +95,9 @@
 				082009341E44CE1D0059255F /* VideoViewController.h */,
 				082009351E44CE1D0059255F /* VideoViewController.m */,
 				082009361E44CE1D0059255F /* VideoViewController.xib */,
-				08FF29441E4627D800FD3F77 /* SearchResultsViewController.h */,
-				08FF29451E4627D800FD3F77 /* SearchResultsViewController.m */,
-				0820093E1E44D7750059255F /* Assets.bundle */,
+				E4E0F9EB1E4B12EE00F3AEA0 /* YTPlayerView.h */,
+				E4E0F9EC1E4B12EE00F3AEA0 /* YTPlayerView.m */,
+				E4E0F9E61E4B12BF00F3AEA0 /* Assets.bundle */,
 			);
 			path = playourlist;
 			sourceTree = "<group>";
@@ -175,7 +170,7 @@
 			files = (
 				084AA8F61E40E9BF000A9268 /* LaunchScreen.storyboard in Resources */,
 				082009331E44BA8E0059255F /* CellTableView.xib in Resources */,
-				0820093F1E44D7750059255F /* Assets.bundle in Resources */,
+				E4E0F9E71E4B12BF00F3AEA0 /* Assets.bundle in Resources */,
 				084AA8F31E40E9BF000A9268 /* Assets.xcassets in Resources */,
 				082009381E44CE1D0059255F /* VideoViewController.xib in Resources */,
 				084AA9011E40E9FA000A9268 /* ListViewController.xib in Resources */,
@@ -195,8 +190,7 @@
 				082009321E44BA8E0059255F /* CellTableView.m in Sources */,
 				084AA9001E40E9FA000A9268 /* ListViewController.m in Sources */,
 				08C6F1B11E41058B0018440E /* DataVideo.m in Sources */,
-				0820093B1E44D6850059255F /* YTPlayerView.m in Sources */,
-				08FF29461E4627D800FD3F77 /* SearchResultsViewController.m in Sources */,
+				E4E0F9ED1E4B12EE00F3AEA0 /* YTPlayerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
