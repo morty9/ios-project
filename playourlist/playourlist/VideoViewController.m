@@ -8,8 +8,13 @@
 
 #import "VideoViewController.h"
 #import "YTPlayerView.h"
+#import "FavoriteViewController.h"
 
 @interface VideoViewController ()
+{
+    NSMutableArray<DataVideo*>* video_f;
+    FavoriteViewController* favoriteViewController;
+}
 
 @end
 
@@ -24,20 +29,48 @@
 @synthesize titleVideo = titleVideo_;
 @synthesize detailsVideo = detailsVideo_;
 @synthesize descriptionVideo = descriptionVideo_;
+@synthesize dataVideo = dataVideo_;
+
+- (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
+    if(self != nil) {
+        favoriteViewController = [[FavoriteViewController alloc] init];
+        video_f = [[NSMutableArray<DataVideo*> alloc] init];
+    }
+    
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.titleView.text = self.titleVideo;
-    self.detailsView.text = self.detailsVideo;
-    self.descriptionView.text = self.descriptionVideo;
-    [self.videoView loadWithVideoId: self.idVideo];
+    self.titleView.text = self.dataVideo.title_;
+    self.detailsView.text = self.dataVideo.date_;
+    self.descriptionView.text = self.dataVideo.description_;
+    [self.videoView loadWithVideoId:self.dataVideo.id_];
+    
+    //self.titleView.text = self.titleVideo;
+    //self.detailsView.text = self.detailsVideo;
+    //self.descriptionView.text = self.descriptionVideo;
+    //[self.videoView loadWithVideoId: self.idVideo];
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)touchShare:(id)sender {
+    
+}
+
+- (IBAction)touchFavorite:(id)sender {
+    NSLog(@"favorite");
+    //[video_f addObject:dataVideo_];
+    NSLog(@"data %@",dataVideo_);
+    favoriteViewController.dataVideoF = self.dataVideo;
 }
 
 /*

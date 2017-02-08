@@ -11,6 +11,7 @@
 #import "DataVideo.h"
 #import "CellTableView.h"
 #import "VideoViewController.h"
+#import "FavoriteViewController.h"
 
 @interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate>
 {
@@ -18,6 +19,7 @@
     //NSMutableArray *searchResults;
     NSArray *searchResults;
     NSArray* finalResults;
+    FavoriteViewController* favoriteViewController;
 }
 @end
 
@@ -28,7 +30,15 @@
     
     if(self != nil) {
         NSLog(@"init");
+        
+        self.title = @"Play Your List";
+        
+        UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(touchFavorite:)];
+        rightItem.tintColor = [UIColor grayColor];
+        self.navigationItem.rightBarButtonItem = rightItem;
+        
         video_list = [[NSMutableArray<DataVideo*> alloc] init];
+        favoriteViewController = [[FavoriteViewController alloc] init];
         
         NSURLSession* urlSession = [NSURLSession sharedSession];
         NSString *urlString = [NSString stringWithFormat: @"https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=50&key=%@", APIKey];
@@ -131,8 +141,8 @@
     }
     
     
-    cell.layer.borderWidth = 2.0;
-    cell.layer.borderColor = [UIColor grayColor].CGColor;
+    //cell.layer.borderWidth = 2.0;
+    //cell.layer.borderColor = [UIColor grayColor].CGColor;
     //cell.titleCell.text = [[video_list objectAtIndex:indexPath.row] title_];
     cell.titleCell.text = dataVideo.title_;
     //cell.detailsCell.text = [[video_list objectAtIndex:indexPath.row] date_];
@@ -145,15 +155,17 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString* idV = [[video_list objectAtIndex:indexPath.row] id_];
-    NSString* title = [[video_list objectAtIndex:indexPath.row] title_];
-    NSString* details = [[video_list objectAtIndex:indexPath.row] date_];
-    NSString* description = [[video_list objectAtIndex:indexPath.row] description_];
+    //NSString* idV = [[video_list objectAtIndex:indexPath.row] id_];
+    //NSString* title = [[video_list objectAtIndex:indexPath.row] title_];
+    //NSString* details = [[video_list objectAtIndex:indexPath.row] date_];
+    //NSString* description = [[video_list objectAtIndex:indexPath.row] description_];
     VideoViewController* videoViewController = [[VideoViewController alloc] init];
-    videoViewController.idVideo = idV;
-    videoViewController.titleVideo = title;
-    videoViewController.detailsVideo = details;
-    videoViewController.descriptionVideo = description;
+    //videoViewController.idVideo = idV;
+    //videoViewController.titleVideo = title;
+    //videoViewController.detailsVideo = details;
+    //videoViewController.descriptionVideo = description;
+    DataVideo* data_ = [video_list objectAtIndex:indexPath.row];
+    videoViewController.dataVideo = data_;
     [self.navigationController pushViewController:videoViewController animated:YES];
     
 }
@@ -190,6 +202,11 @@
     [self updateSearchResultsForSearchController:self.searchController];
 }
 
+- (void) touchFavorite:(id)sender {
+    NSLog(@"Favoris");
+    [self.navigationController pushViewController:favoriteViewController animated:YES];
+    
+}
 
 /*-(BOOL)searchDisplayController:(UISearchController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
