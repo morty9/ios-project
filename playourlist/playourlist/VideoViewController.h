@@ -13,12 +13,8 @@
 @interface VideoViewController : UIViewController {
     
     @private
-    NSString* idVideo_;
-    NSString* titleVideo_;
-    NSString* detailsVideo_;
-    NSString* descriptionVideo_;
-    
     DataVideo* dataVideo_;
+    NSMutableArray<DataVideo*>* fVideo_;
 }
 
 @property (weak, nonatomic) IBOutlet YTPlayerView *videoView;
@@ -28,10 +24,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *descriptionView;
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 
-@property (nonatomic, strong) NSString* idVideo;
-@property (nonatomic,strong) NSString* titleVideo;
-@property (nonatomic,strong) NSString* detailsVideo;
-@property (nonatomic,strong) NSString* descriptionVideo;
 @property (nonatomic, strong) DataVideo* dataVideo;
+@property (nonatomic, strong) NSMutableArray<DataVideo*>* fVideo;
 
 @end

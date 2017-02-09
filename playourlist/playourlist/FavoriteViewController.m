@@ -11,6 +11,9 @@
 #import "VideoViewController.h"
 
 @interface FavoriteViewController () <UITableViewDataSource, UITableViewDelegate>
+{
+    //NSMutableArray<DataVideo*>* video_listF;
+}
 
 @end
 
@@ -27,8 +30,8 @@
         //dataVideoF_ = [[DataVideo alloc] init];
         NSLog(@"dataVideo %@", self.dataVideoF);
         //video_listF_ = [[NSMutableArray<DataVideo*> alloc] init];
-        [self.video_listF addObject:self.dataVideoF];
-        NSLog(@"data:%@", self.video_listF);
+        [video_listF_ addObject:self.dataVideoF];
+        NSLog(@"data:%@", video_listF_);
         /*dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });*/

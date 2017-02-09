@@ -9,11 +9,13 @@
 #import "VideoViewController.h"
 #import "YTPlayerView.h"
 #import "FavoriteViewController.h"
+#import "ListViewController.h"
+
 
 @interface VideoViewController ()
 {
-    NSMutableArray<DataVideo*>* video_f;
     FavoriteViewController* favoriteViewController;
+    ListViewController* listViewController;
 }
 
 @end
@@ -24,19 +26,16 @@
 @synthesize titleView = _titleView;
 @synthesize detailsView = _detailsView;
 @synthesize descriptionView = _descriptionView;
-
-@synthesize idVideo = idVideo_;
-@synthesize titleVideo = titleVideo_;
-@synthesize detailsVideo = detailsVideo_;
-@synthesize descriptionVideo = descriptionVideo_;
 @synthesize dataVideo = dataVideo_;
+@synthesize fVideo = fVideo_;
 
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
+        listViewController = [[ListViewController alloc] init];
         favoriteViewController = [[FavoriteViewController alloc] init];
-        video_f = [[NSMutableArray<DataVideo*> alloc] init];
+        self.fVideo = [[NSMutableArray<DataVideo*> alloc] init];
     }
     
     return self;
@@ -49,12 +48,6 @@
     self.detailsView.text = self.dataVideo.date_;
     self.descriptionView.text = self.dataVideo.description_;
     [self.videoView loadWithVideoId:self.dataVideo.id_];
-    
-    //self.titleView.text = self.titleVideo;
-    //self.detailsView.text = self.detailsVideo;
-    //self.descriptionView.text = self.descriptionVideo;
-    //[self.videoView loadWithVideoId: self.idVideo];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,9 +61,11 @@
 
 - (IBAction)touchFavorite:(id)sender {
     NSLog(@"favorite");
-    //[video_f addObject:dataVideo_];
-    NSLog(@"data %@",dataVideo_);
-    favoriteViewController.dataVideoF = self.dataVideo;
+    [self.fVideo addObject:dataVideo_];
+    NSLog(@"data %@",self.fVideo);
+    [listViewController.fVideoArray addObject:self.dataVideo];
+    NSLog(@"%@",listViewController.fVideoArray);
+    //favoriteViewController.dataVideoF = self.dataVideo;
 }
 
 /*

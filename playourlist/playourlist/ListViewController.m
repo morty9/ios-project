@@ -16,14 +16,16 @@
 @interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate>
 {
     NSMutableArray<DataVideo*> *video_list ;
-    //NSMutableArray *searchResults;
     NSArray *searchResults;
-    NSArray* finalResults;
     FavoriteViewController* favoriteViewController;
+    VideoViewController* videoViewController;
 }
 @end
 
 @implementation ListViewController
+
+@synthesize fVideo = fVideo_;
+@synthesize fVideoArray = fVideoArray_;
 
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -38,7 +40,9 @@
         self.navigationItem.rightBarButtonItem = rightItem;
         
         video_list = [[NSMutableArray<DataVideo*> alloc] init];
-        favoriteViewController = [[FavoriteViewController alloc] init];
+        self.fVideoArray = [[NSMutableArray<DataVideo*> alloc] init];
+        //videoViewController = [[VideoViewController alloc] init];
+        //favoriteViewController = [[FavoriteViewController alloc] init];
         
         NSURLSession* urlSession = [NSURLSession sharedSession];
         NSString *urlString = [NSString stringWithFormat: @"https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=50&key=%@", APIKey];
@@ -82,7 +86,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -94,6 +97,18 @@
     self.searchController.searchBar.scopeButtonTitles = @[];
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
+    
+    favoriteViewController = [[FavoriteViewController alloc] init];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    NSLog(@"test will");
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"test did");
+    //[fVideoArray addObject:self.fVideo];
+    //NSLog(@"data list: %@",fVideoArray);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -102,13 +117,6 @@
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    /*if(tableView == self.searchDisplayController.searchResultsTableView) {
-        return searchResults.count;
-    }else {
-        return video_list.count;
-    }*/
-    
     if(self.searchController.isActive) {
         return searchResults.count;
     }else {
@@ -128,24 +136,13 @@
     }
     
     DataVideo* dataVideo = nil;
-    /*if (tableView == self.searchDisplayController.searchResultsTableView) {
-        dataVideo = [searchResults objectAtIndex:indexPath.row];
-    } else {
-        dataVideo = [video_list objectAtIndex:indexPath.row];
-    }*/
-    
     if(self.searchController.isActive) {
         dataVideo = [searchResults objectAtIndex:indexPath.row];
     }else {
         dataVideo = [video_list objectAtIndex:indexPath.row];
     }
-    
-    
-    //cell.layer.borderWidth = 2.0;
-    //cell.layer.borderColor = [UIColor grayColor].CGColor;
-    //cell.titleCell.text = [[video_list objectAtIndex:indexPath.row] title_];
+
     cell.titleCell.text = dataVideo.title_;
-    //cell.detailsCell.text = [[video_list objectAtIndex:indexPath.row] date_];
     cell.detailsCell.text = dataVideo.date_;
     NSURL* urlImage = [NSURL URLWithString: [[video_list objectAtIndex:indexPath.row] thumbnails_]];
     NSData* img = [[NSData alloc] initWithContentsOfURL: urlImage];
@@ -155,96 +152,45 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //NSString* idV = [[video_list objectAtIndex:indexPath.row] id_];
-    //NSString* title = [[video_list objectAtIndex:indexPath.row] title_];
-    //NSString* details = [[video_list objectAtIndex:indexPath.row] date_];
-    //NSString* description = [[video_list objectAtIndex:indexPath.row] description_];
-    VideoViewController* videoViewController = [[VideoViewController alloc] init];
-    //videoViewController.idVideo = idV;
-    //videoViewController.titleVideo = title;
-    //videoViewController.detailsVideo = details;
-    //videoViewController.descriptionVideo = description;
+    videoViewController = [[VideoViewController alloc] init];
     DataVideo* data_ = [video_list objectAtIndex:indexPath.row];
     videoViewController.dataVideo = data_;
     [self.navigationController pushViewController:videoViewController animated:YES];
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 330;
 }
 
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-{
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     NSLog(@"update search");
     NSString *searchString = searchController.searchBar.text;
     [self searchForText:searchString];
     [self.tableView reloadData];
 }
 
-- (void)searchForText:(NSString*)searchText
-{
+- (void)searchForText:(NSString*)searchText {
     NSLog(@"search for text");
-    //searchResults = [NSMutableArray new];
-    //for(DataVideo* r in video_list) {
-    //    [searchResults addObject:[r title_]];
-    //}
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
-    //finalResults = [searchResults filteredArrayUsingPredicate:predicate];
     NSLog(@"%@", [video_list filteredArrayUsingPredicate:predicate]);
     searchResults = [video_list filteredArrayUsingPredicate:predicate];
 }
 
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
-{
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
     NSLog(@"search bar");
     [self updateSearchResultsForSearchController:self.searchController];
 }
 
 - (void) touchFavorite:(id)sender {
     NSLog(@"Favoris");
+    //favoriteViewController = [[FavoriteViewController alloc] init];
+    //VideoViewController* videoViewController = [[VideoViewController alloc] init];
+    //fVideoArray_ = videoViewController.fVideo;
+    NSLog(@"fvideoarray %@", self.fVideoArray);
+    favoriteViewController.video_listF = self.fVideoArray;
     [self.navigationController pushViewController:favoriteViewController animated:YES];
-    
 }
-
-/*-(BOOL)searchDisplayController:(UISearchController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    NSLog(@"should reload");
-    [self filterContentForSearchText:searchString scope:[[self.searchController.searchBar scopeButtonTitles] objectAtIndex:[self.searchController.searchBar selectedScopeButtonIndex]]];
-    
-    return YES;
-}*/
-
-/*- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
-{
-    [self updateSearchResultsForSearchController:self.searchController];
-}
-
-- (void) updateSearchResultsForSearchController:(UISearchController *)searchController {
-    NSString* searchText = searchController.searchBar.text;
-    NSLog(@"%@",searchText);
-    [self searchForText:searchText];
-    [self.tableView reloadData];
-}*/
-
-/*- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
-{
-    searchResults = [NSMutableArray new];
-    for(DataVideo* r in video_list) {
-        [searchResults addObject:[r title_]];
-    }
-    NSLog(@"source: %@", searchResults );
-    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", searchText];
-    NSLog(@"predicate %@",resultPredicate);
-    //searchResults = [[video_list]filteredArrayUsingPredicate:resultPredicate];
-    //finalResults = [searchResults filteredArrayUsingPredicate:resultPredicate];
-    finalResults = searchResults;
-    //NSLog(@"results %@",[searchResults filteredArrayUsingPredicate:resultPredicate]);
-    NSLog(@"results %@",[searchResults filteredArrayUsingPredicate:resultPredicate]);
-    
-}*/
-
 
 /*
 #pragma mark - Navigation
