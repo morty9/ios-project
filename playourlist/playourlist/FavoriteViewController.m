@@ -10,9 +10,9 @@
 #import "CellTableView.h"
 #import "VideoViewController.h"
 
-@interface FavoriteViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface FavoriteViewController () <UITableViewDataSource, UITableViewDelegate,UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate>
 {
-    //NSMutableArray<DataVideo*>* video_listF;
+    NSArray *searchResults;
 }
 
 @end
@@ -26,15 +26,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
-        NSLog(@"init favorite");
-        //dataVideoF_ = [[DataVideo alloc] init];
-        NSLog(@"dataVideo %@", self.dataVideoF);
-        //video_listF_ = [[NSMutableArray<DataVideo*> alloc] init];
-        [video_listF_ addObject:self.dataVideoF];
-        NSLog(@"data:%@", video_listF_);
-        /*dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });*/
+
+        [self.tableView reloadData];
         
     }
     
@@ -47,6 +40,16 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.delegate = self;
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    self.searchController.searchBar.scopeButtonTitles = @[];
+    self.definesPresentationContext = YES;
+    [self.searchController.searchBar sizeToFit];
+
+    
     [self.tableView reloadData];
 }
 
@@ -56,7 +59,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return video_listF_.count;
+    if(self.searchController.isActive) {
+        return searchResults.count;
+    }else {
+        return video_listF_.count;
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -71,20 +78,16 @@
     }
     
     DataVideo* dataVideo = nil;
-    //if(self.searchController.isActive) {
-    //    dataVideo = [searchResults objectAtIndex:indexPath.row];
-    //}else {
-    dataVideo = [video_listF_ objectAtIndex:indexPath.row];
-    //}
+    if(self.searchController.isActive) {
+        dataVideo = [searchResults objectAtIndex:indexPath.row];
+    }else {
+        dataVideo = [video_listF_ objectAtIndex:indexPath.row];
+    }
     
-    
-    //cell.layer.borderWidth = 2.0;
-    //cell.layer.borderColor = [UIColor grayColor].CGColor;
-    //cell.titleCell.text = [[video_list objectAtIndex:indexPath.row] title_];
     cell.titleCell.text = dataVideo.title_;
-    //cell.detailsCell.text = [[video_list objectAtIndex:indexPath.row] date_];
     cell.detailsCell.text = dataVideo.date_;
-    NSURL* urlImage = [NSURL URLWithString: [[video_listF_ objectAtIndex:indexPath.row] thumbnails_]];
+    //NSURL* urlImage = [NSURL URLWithString: [[video_listF_ objectAtIndex:indexPath.row] thumbnails_]];
+    NSURL* urlImage = [NSURL URLWithString:dataVideo.thumbnails_];
     NSData* img = [[NSData alloc] initWithContentsOfURL: urlImage];
     cell.thumbnailCell.image = [UIImage imageWithData:img];
     
@@ -102,6 +105,22 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 330;
+}
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    NSString *searchString = searchController.searchBar.text;
+    [self searchForText:searchString];
+    [self.tableView reloadData];
+}
+
+- (void)searchForText:(NSString*)searchText {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
+    NSLog(@"%@", [video_listF_ filteredArrayUsingPredicate:predicate]);
+    searchResults = [video_listF_ filteredArrayUsingPredicate:predicate];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    [self updateSearchResultsForSearchController:self.searchController];
 }
 
 /*

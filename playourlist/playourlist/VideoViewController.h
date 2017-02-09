@@ -10,11 +10,20 @@
 #import "YTPlayerView.h"
 #import "DataVideo.h"
 
+@class VideoViewController;
+
+@protocol VideoViewControllerDelegate <NSObject>
+@optional
+
+- (void) VideoViewController:(VideoViewController*)videoViewController didAddValue:(DataVideo*)value;
+
+@end
+
 @interface VideoViewController : UIViewController {
     
     @private
     DataVideo* dataVideo_;
-    NSMutableArray<DataVideo*>* fVideo_;
+    __weak id<VideoViewControllerDelegate> delegate_;
 }
 
 @property (weak, nonatomic) IBOutlet YTPlayerView *videoView;
@@ -25,6 +34,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 
 @property (nonatomic, strong) DataVideo* dataVideo;
-@property (nonatomic, strong) NSMutableArray<DataVideo*>* fVideo;
+@property (nonatomic, weak) id<VideoViewControllerDelegate> delegate;
 
 @end

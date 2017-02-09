@@ -20,5 +20,6 @@
 
 @property (nonatomic, strong) DataVideo* dataVideoF;
 @property (nonatomic, strong) NSMutableArray<DataVideo*>* video_listF;
+@property (strong, nonatomic) UISearchController *searchController;
 
 @end

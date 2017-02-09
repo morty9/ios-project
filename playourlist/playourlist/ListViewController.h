@@ -10,16 +10,11 @@
 #import "DataVideo.h"
 
 @interface ListViewController : UIViewController {
-    
-    DataVideo* fVideo_;
     NSMutableArray<DataVideo*>* fVideoArray_;
-    
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UISearchController *searchController;
-
-@property (nonatomic, strong) DataVideo* fVideo;
 @property (nonatomic, strong) NSMutableArray<DataVideo*>* fVideoArray;
 
 @end

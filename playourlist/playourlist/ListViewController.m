@@ -13,7 +13,7 @@
 #import "VideoViewController.h"
 #import "FavoriteViewController.h"
 
-@interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate>
+@interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate, VideoViewControllerDelegate>
 {
     NSMutableArray<DataVideo*> *video_list ;
     NSArray *searchResults;
@@ -24,7 +24,6 @@
 
 @implementation ListViewController
 
-@synthesize fVideo = fVideo_;
 @synthesize fVideoArray = fVideoArray_;
 
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -40,9 +39,8 @@
         self.navigationItem.rightBarButtonItem = rightItem;
         
         video_list = [[NSMutableArray<DataVideo*> alloc] init];
-        self.fVideoArray = [[NSMutableArray<DataVideo*> alloc] init];
-        //videoViewController = [[VideoViewController alloc] init];
-        //favoriteViewController = [[FavoriteViewController alloc] init];
+        fVideoArray_ = [[NSMutableArray<DataVideo*> alloc] init];
+        favoriteViewController = [[FavoriteViewController alloc] init];
         
         NSURLSession* urlSession = [NSURLSession sharedSession];
         NSString *urlString = [NSString stringWithFormat: @"https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=50&key=%@", APIKey];
@@ -97,18 +95,6 @@
     self.searchController.searchBar.scopeButtonTitles = @[];
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
-    
-    favoriteViewController = [[FavoriteViewController alloc] init];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"test will");
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    NSLog(@"test did");
-    //[fVideoArray addObject:self.fVideo];
-    //NSLog(@"data list: %@",fVideoArray);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -155,6 +141,7 @@
     videoViewController = [[VideoViewController alloc] init];
     DataVideo* data_ = [video_list objectAtIndex:indexPath.row];
     videoViewController.dataVideo = data_;
+    videoViewController.delegate = self;
     [self.navigationController pushViewController:videoViewController animated:YES];
     
 }
@@ -164,32 +151,33 @@
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    NSLog(@"update search");
     NSString *searchString = searchController.searchBar.text;
     [self searchForText:searchString];
     [self.tableView reloadData];
 }
 
 - (void)searchForText:(NSString*)searchText {
-    NSLog(@"search for text");
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
     NSLog(@"%@", [video_list filteredArrayUsingPredicate:predicate]);
     searchResults = [video_list filteredArrayUsingPredicate:predicate];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-    NSLog(@"search bar");
     [self updateSearchResultsForSearchController:self.searchController];
 }
 
 - (void) touchFavorite:(id)sender {
-    NSLog(@"Favoris");
-    //favoriteViewController = [[FavoriteViewController alloc] init];
-    //VideoViewController* videoViewController = [[VideoViewController alloc] init];
-    //fVideoArray_ = videoViewController.fVideo;
-    NSLog(@"fvideoarray %@", self.fVideoArray);
-    favoriteViewController.video_listF = self.fVideoArray;
+    favoriteViewController.video_listF = fVideoArray_;
+    [favoriteViewController.tableView reloadData];
     [self.navigationController pushViewController:favoriteViewController animated:YES];
+}
+
+- (void) VideoViewController:(VideoViewController*)videoViewController didAddValue:(DataVideo*)value {
+    
+    if(value != nil) {
+        [self.fVideoArray addObject:value];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*

@@ -8,15 +8,8 @@
 
 #import "VideoViewController.h"
 #import "YTPlayerView.h"
-#import "FavoriteViewController.h"
-#import "ListViewController.h"
-
 
 @interface VideoViewController ()
-{
-    FavoriteViewController* favoriteViewController;
-    ListViewController* listViewController;
-}
 
 @end
 
@@ -27,15 +20,12 @@
 @synthesize detailsView = _detailsView;
 @synthesize descriptionView = _descriptionView;
 @synthesize dataVideo = dataVideo_;
-@synthesize fVideo = fVideo_;
+@synthesize delegate = delegate_;
 
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
-        listViewController = [[ListViewController alloc] init];
-        favoriteViewController = [[FavoriteViewController alloc] init];
-        self.fVideo = [[NSMutableArray<DataVideo*> alloc] init];
     }
     
     return self;
@@ -60,12 +50,7 @@
 }
 
 - (IBAction)touchFavorite:(id)sender {
-    NSLog(@"favorite");
-    [self.fVideo addObject:dataVideo_];
-    NSLog(@"data %@",self.fVideo);
-    [listViewController.fVideoArray addObject:self.dataVideo];
-    NSLog(@"%@",listViewController.fVideoArray);
-    //favoriteViewController.dataVideoF = self.dataVideo;
+    [self.delegate VideoViewController:self didAddValue:dataVideo_];
 }
 
 /*
