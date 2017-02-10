@@ -130,7 +130,7 @@
 
     cell.titleCell.text = dataVideo.title_;
     cell.detailsCell.text = dataVideo.date_;
-    NSURL* urlImage = [NSURL URLWithString: [[video_list objectAtIndex:indexPath.row] thumbnails_]];
+    NSURL* urlImage = [NSURL URLWithString: dataVideo.thumbnails_];
     NSData* img = [[NSData alloc] initWithContentsOfURL: urlImage];
     cell.thumbnailCell.image = [UIImage imageWithData:img];
     
