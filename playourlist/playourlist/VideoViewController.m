@@ -10,7 +10,9 @@
 #import "YTPlayerView.h"
 
 @interface VideoViewController ()
-
+{
+    NSArray *sharingData;
+}
 @end
 
 @implementation VideoViewController
@@ -26,6 +28,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
+        sharingData = [[NSArray alloc] initWithObjects:self.dataVideo.thumbnails_, nil];
     }
     
     return self;
@@ -46,6 +49,9 @@
 }
 
 - (IBAction)touchShare:(id)sender {
+    UIActivityViewController *shareController = [[UIActivityViewController alloc] initWithActivityItems: sharingData  applicationActivities:nil];
+    shareController.excludedActivityTypes = @[];
+    [self presentViewController:shareController animated:YES completion:nil];
     
 }
 
