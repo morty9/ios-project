@@ -40,6 +40,7 @@
     self.titleView.text = self.dataVideo.title_;
     self.detailsView.text = self.dataVideo.date_;
     self.descriptionView.text = self.dataVideo.description_;
+    self.descriptionView.editable = NO;
     [self.videoView loadWithVideoId:self.dataVideo.id_];
 }
 
