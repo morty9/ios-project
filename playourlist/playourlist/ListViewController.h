@@ -17,4 +17,8 @@
 @property (strong, nonatomic) UISearchController *searchController;
 @property (nonatomic, strong) NSMutableArray<DataVideo*>* fVideoArray;
 
+- (void) tagsSort:(NSMutableDictionary*)tagsVideo dataVideos:(NSMutableArray<DataVideo*>*)data resultsTags:(NSMutableArray<NSString*>*)results;
+
+- (void)atTags:(NSString*)tags allTags:(NSMutableDictionary*)tagsVideo;
+
 @end

@@ -19,8 +19,10 @@
 @synthesize date_ = date_v;
 @synthesize description_ = description_v;
 @synthesize thumbnails_ = thumbnails_v;
+@synthesize channels_ = channels_v;
+@synthesize tags_ = tags_v;
 
-- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video {
+- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video channels:(NSString *)channels_video tags:(NSArray<NSString*>*)tags_video {
     self = [super init];
     if(self != nil) {
         self.id_ = id_video;
@@ -28,6 +30,8 @@
         self.date_ = date_video;
         self.description_ = description_video;
         self.thumbnails_ = thumbnails_video;
+        self.channels_ = channels_video;
+        self.tags_ = tags_video;
     }
     return self;
 }
