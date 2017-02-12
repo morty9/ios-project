@@ -172,9 +172,13 @@
     NSURL* urlImage = [NSURL URLWithString: dataVideo.thumbnails_];
     NSData* img = [[NSData alloc] initWithContentsOfURL: urlImage];
     cell.thumbnailCell.image = [UIImage imageWithData:img];
+    cell.layer.borderColor = [UIColor blackColor].CGColor;
+    cell.layer.borderWidth = 4.0f;
     
     return cell;
 }
+
+
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     videoViewController = [[VideoViewController alloc] init];
