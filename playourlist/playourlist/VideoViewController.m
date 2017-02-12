@@ -28,7 +28,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
-        sharingData = [[NSArray alloc] initWithObjects:self.dataVideo.thumbnails_, nil];
+
     }
     
     return self;
@@ -42,6 +42,10 @@
     self.descriptionView.text = self.dataVideo.description_;
     self.descriptionView.editable = NO;
     [self.videoView loadWithVideoId:self.dataVideo.id_];
+    
+    NSString *urlString = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@",self.dataVideo.id_];
+    NSURL* url = [[NSURL alloc] initWithString:urlString];
+    sharingData = [[NSArray alloc] initWithObjects:url, nil];
 }
 
 - (void)didReceiveMemoryWarning {
