@@ -13,6 +13,7 @@
 @interface FavoriteViewController () <UITableViewDataSource, UITableViewDelegate,UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate>
 {
     NSArray *searchResults;
+    VideoViewController* vvc;
 }
 
 @end
@@ -26,6 +27,12 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
+        
+        vvc = [[VideoViewController alloc] init];
+        
+        UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(touchEdit:)];
+        rightItem.tintColor = [UIColor blueColor];
+        self.navigationItem.rightBarButtonItem = rightItem;
 
         [self.tableView reloadData];
         
@@ -56,6 +63,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) touchEdit:(id)sender {
+    [self.tableView setEditing:!self.tableView.editing animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -96,6 +107,7 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     VideoViewController* videoViewController = [[VideoViewController alloc] init];
     DataVideo* data_ = [video_listF_ objectAtIndex:indexPath.row];
+    videoViewController.favoriteButton.hidden = YES;
     videoViewController.dataVideo = data_;
     [self.navigationController pushViewController:videoViewController animated:YES];
     
@@ -120,6 +132,19 @@
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
     [self updateSearchResultsForSearchController:self.searchController];
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    NSNumber* src = [video_listF_ objectAtIndex:sourceIndexPath.row];
+    [video_listF_ removeObjectAtIndex:sourceIndexPath.row];
+    [video_listF_ insertObject:src atIndex:destinationIndexPath.row];
+}
+
+- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [video_listF_ removeObjectAtIndex:indexPath.row];
+        [tableView reloadData];
+    }
 }
 
 /*

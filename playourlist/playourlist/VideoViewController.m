@@ -17,6 +17,8 @@
 
 @implementation VideoViewController
 
+@synthesize favoriteButton = _favoriteButton;
+
 @synthesize videoView = _videoView;
 @synthesize titleView = _titleView;
 @synthesize detailsView = _detailsView;
