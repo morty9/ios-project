@@ -222,15 +222,23 @@
     [self.navigationController pushViewController:favoriteViewController animated:YES];
 }
 
-- (void)VideoViewController:(VideoViewController*)videoViewController didAddValue:(DataVideo*)value {
-    
+- (void)VideoViewController:(VideoViewController*)videoViewController didAddValue:(DataVideo*)value date:(NSDate *)currentDate {
+    BOOL checkArray = false;
     if(value != nil) {
-        [self.fVideoArray addObject:value];
+        for(DataVideo* check in self.fVideoArray) {
+            if(check == value) {
+                checkArray = true;
+            }
+        }
+        if(checkArray == false) {
+            [self.fVideoArray addObject:value];
+            self.currentDate = currentDate;
+        }
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)tagsSort:(NSMutableDictionary*)tagsVideo_ dataVideos:(NSMutableArray<DataVideo*>*)data resultsTags:(NSMutableArray<NSString *> *)results {
+- (void)tagsSort:(NSMutableDictionary*)tagsVideo_ dataVideos:(NSMutableArray<DataVideo*>*)data resultsTags:(NSMutableArray<NSString *>*)results {
     
     for (DataVideo* v in data) {
         for(NSString* tags in v.tags_) {

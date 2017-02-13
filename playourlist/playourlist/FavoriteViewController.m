@@ -66,35 +66,83 @@
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
 
-
-    NSLog(@"data video date %@", [self.video_listF valueForKey:@"addFavoriteDate_v"]);
+//    NSDateComponents *dateComponents = [NSDateComponents new];
+//    //dateComponents.month = -1;
+//    dateComponents.minute = -1;
+//    NSDate* month = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self.addDate options:0];
+//    NSLog(@"last month %@",month);
+//    
+//    for (DataVideo* r in self.video_listF) {
+//        if(r.addFavoriteDate_ > month) {
+//            NSLog(@"test");
+//            [resultSection1 addObject:r];
+//        }else {
+//            NSLog(@"test2");
+//            [resultSection2 addObject:r];
+//        }
+//    }
+//    
+//    NSLog(@"section 1 %@",resultSection1);
+//    NSLog(@"section 2 %@",resultSection2);
+    //resultSection = [[arraySection allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
-    NSLog(@"date favorite %@", self.addDate);
-    NSDate *addDates = [self.video_listF valueForKey:@"addFavoriteDate_v"];
+    //[self.tableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    BOOL checkArray = false;
     NSDateComponents *dateComponents = [NSDateComponents new];
     //dateComponents.month = -1;
     dateComponents.minute = -1;
-    NSDate* month = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:addDates options:0];
-    NSLog(@"last month %@",month);
+    NSDate *d = [NSDate date];
+    NSDate* month = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:d options:0];
+    NSMutableArray *tmpArray1 = [resultSection1 mutableCopy];
+    NSMutableArray *tmpArray2 = [resultSection2 mutableCopy];
+    NSLog(@"tmp 1 %@", tmpArray1);
+    NSLog(@"tmp 2 %@", tmpArray2);
     
     for (DataVideo* r in self.video_listF) {
-        if(r.addFavoriteDate_ > month) {
+        if([r.addFavoriteDate_ compare:month] == NSOrderedDescending) {
             NSLog(@"test");
-            [resultSection1 addObject:r];
+            if(resultSection1.count != 0) {
+                for (DataVideo* check in resultSection1) {
+                    if(r == check) {
+                        [tmpArray2 addObject:check];
+                        [tmpArray1 removeObject:check];
+                        checkArray = true;
+                    }
+                }
+                if(checkArray == false) {
+                    [tmpArray1 addObject:r];
+                }else {
+                    resultSection2 = tmpArray2;
+                }
+            }else {
+                [tmpArray1 addObject:r];
+            }
+            resultSection1 = tmpArray1;
         }else {
             NSLog(@"test2");
-            [resultSection2 addObject:r];
+            if(resultSection2.count != 0) {
+                for (DataVideo* check in resultSection2) {
+                    if(r == check) {
+                        [tmpArray2 removeObject:check];
+                        checkArray = true;
+                    }
+                }
+                if(checkArray == false) {
+                    [tmpArray2 addObject:r];
+                }
+            }else {
+                [tmpArray2 addObject:r];
+            }
+            resultSection2 = tmpArray2;
         }
     }
     
     NSLog(@"section 1 %@",resultSection1);
     NSLog(@"section 2 %@",resultSection2);
-    //resultSection = [[arraySection allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-    
     [self.tableView reloadData];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
 }
 
 - (void)didReceiveMemoryWarning {

@@ -71,7 +71,7 @@
     //NSLog(@"%@",[dateFormatter stringFromDate:[NSDate date]]);
     NSLog(@"date %@",currentDate);
     self.dataVideo.addFavoriteDate_ = currentDate;
-    [self.delegate VideoViewController:self didAddValue:dataVideo_];
+    [self.delegate VideoViewController:self didAddValue:dataVideo_ date:currentDate];
 }
 
 /*
