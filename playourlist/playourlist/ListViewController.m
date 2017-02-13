@@ -29,6 +29,7 @@
 @implementation ListViewController
 
 @synthesize fVideoArray = fVideoArray_;
+@synthesize currentDate = currentDate_;
 
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -216,6 +217,7 @@
 
 - (void)touchFavorite:(id)sender {
     favoriteViewController.video_listF = fVideoArray_;
+    favoriteViewController.addDate = self.currentDate;
     [favoriteViewController.tableView reloadData];
     [self.navigationController pushViewController:favoriteViewController animated:YES];
 }

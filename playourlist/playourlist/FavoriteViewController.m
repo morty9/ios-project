@@ -14,6 +14,10 @@
 {
     NSArray *searchResults;
     VideoViewController* vvc;
+    NSArray *arraySection;
+    NSMutableArray *resultSection1;
+    NSMutableArray *resultSection2;
+    NSDate *addDate;
 }
 
 @end
@@ -22,6 +26,7 @@
 
 @synthesize dataVideoF = dataVideoF_;
 @synthesize video_listF = video_listF_;
+@synthesize addDate = addDate_;
 
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -30,10 +35,15 @@
         
         vvc = [[VideoViewController alloc] init];
         
+        arraySection = [[NSArray alloc] initWithObjects:@"Recently Added", @"More One Month", nil];
+        resultSection1 = [[NSMutableArray alloc] init];
+        resultSection2 = [[NSMutableArray alloc] init];
+        addDate = [[NSDate alloc] init];
+        
         UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(touchEdit:)];
         rightItem.tintColor = [UIColor blueColor];
         self.navigationItem.rightBarButtonItem = rightItem;
-
+        
         [self.tableView reloadData];
         
     }
@@ -56,8 +66,35 @@
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
 
+
+    NSLog(@"data video date %@", [self.video_listF valueForKey:@"addFavoriteDate_v"]);
+    
+    NSLog(@"date favorite %@", self.addDate);
+    NSDate *addDates = [self.video_listF valueForKey:@"addFavoriteDate_v"];
+    NSDateComponents *dateComponents = [NSDateComponents new];
+    //dateComponents.month = -1;
+    dateComponents.minute = -1;
+    NSDate* month = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:addDates options:0];
+    NSLog(@"last month %@",month);
+    
+    for (DataVideo* r in self.video_listF) {
+        if(r.addFavoriteDate_ > month) {
+            NSLog(@"test");
+            [resultSection1 addObject:r];
+        }else {
+            NSLog(@"test2");
+            [resultSection2 addObject:r];
+        }
+    }
+    
+    NSLog(@"section 1 %@",resultSection1);
+    NSLog(@"section 2 %@",resultSection2);
+    //resultSection = [[arraySection allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
     [self.tableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,12 +106,35 @@
     [self.tableView setEditing:!self.tableView.editing animated:YES];
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return [arraySection count];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [arraySection objectAtIndex:section];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(self.searchController.isActive) {
         return searchResults.count;
     }else {
-        return video_listF_.count;
+        if(section == 0) {
+            return resultSection1.count;
+        }else if (section == 1){
+            return resultSection2.count;
+        }
+        //return video_listF_.count;
     }
+    
+    return 1;
+//    NSString *sectionTitle = [arraySection objectAtIndex:section];
+//    NSArray *sectionAnimals = [resultSection1 objectForKey:sectionTitle];
+//    return [sectionAnimals count];
+    
+   // return [sectionAnimals count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -92,7 +152,12 @@
     if(self.searchController.isActive) {
         dataVideo = [searchResults objectAtIndex:indexPath.row];
     }else {
-        dataVideo = [video_listF_ objectAtIndex:indexPath.row];
+        if(indexPath.section == 0) {
+            dataVideo = [resultSection1 objectAtIndex:indexPath.row];
+        }else if(indexPath.section == 1) {
+            dataVideo = [resultSection2 objectAtIndex:indexPath.row];
+        }
+        //dataVideo = [video_listF_ objectAtIndex:indexPath.row];
     }
     
     cell.titleCell.text = dataVideo.title_;
