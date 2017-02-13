@@ -15,7 +15,7 @@
 @protocol VideoViewControllerDelegate <NSObject>
 @optional
 
-- (void) VideoViewController:(VideoViewController*)videoViewController didAddValue:(DataVideo*)value;
+- (void) VideoViewController:(VideoViewController*)videoViewController didAddValue:(DataVideo*)value date:(NSDate*)currentDate;
 
 @end
 

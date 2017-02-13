@@ -21,6 +21,7 @@
 @synthesize thumbnails_ = thumbnails_v;
 @synthesize channels_ = channels_v;
 @synthesize tags_ = tags_v;
+@synthesize addFavoriteDate_ = addFavoriteDate_v;
 
 - (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video channels:(NSString *)channels_video tags:(NSArray<NSString*>*)tags_video {
     self = [super init];
