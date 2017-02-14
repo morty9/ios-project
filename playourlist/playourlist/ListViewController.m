@@ -206,7 +206,10 @@
 }
 
 - (void)searchForText:(NSString*)searchText {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
+    NSPredicate *pTitle = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
+    NSPredicate *pTags = [NSPredicate predicateWithFormat:@"tags_ contains[c] %@", searchText];
+    NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[pTitle, pTags]];
+    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
     //NSLog(@"%@", [video_list filteredArrayUsingPredicate:predicate]);
     searchResults = [video_list filteredArrayUsingPredicate:predicate];
 }
@@ -217,12 +220,11 @@
 
 - (void)touchFavorite:(id)sender {
     favoriteViewController.video_listF = fVideoArray_;
-    favoriteViewController.addDate = self.currentDate;
     [favoriteViewController.tableView reloadData];
     [self.navigationController pushViewController:favoriteViewController animated:YES];
 }
 
-- (void)VideoViewController:(VideoViewController*)videoViewController didAddValue:(DataVideo*)value date:(NSDate *)currentDate {
+- (void)VideoViewController:(VideoViewController*)videoViewController didAddValue:(DataVideo*)value {
     BOOL checkArray = false;
     if(value != nil) {
         for(DataVideo* check in self.fVideoArray) {
@@ -232,7 +234,6 @@
         }
         if(checkArray == false) {
             [self.fVideoArray addObject:value];
-            self.currentDate = currentDate;
         }
     }
     [self dismissViewControllerAnimated:YES completion:nil];

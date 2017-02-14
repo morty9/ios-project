@@ -12,16 +12,12 @@
 @interface FavoriteViewController : UIViewController {
     
     @private
-    DataVideo* dataVideoF_;
     NSMutableArray* video_listF_;
-    NSDate *addDate_;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic, strong) DataVideo* dataVideoF;
 @property (nonatomic, strong) NSMutableArray* video_listF;
 @property (strong, nonatomic) UISearchController *searchController;
-@property (strong, nonatomic) NSDate *addDate;
 
 @end
