@@ -13,7 +13,7 @@
 @interface VideoViewController ()
 {
     NSArray *sharingData;
-    DataVideo* dataV;
+    //DataVideo* dataV;
 }
 @end
 
@@ -32,7 +32,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
-        dataV = [[DataVideo alloc] init];
+        //dataV = [[DataVideo alloc] init];
     }
     
     return self;
@@ -65,13 +65,9 @@
 }
 
 - (IBAction)touchFavorite:(id)sender {
-    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate* currentDate = [NSDate date];
-    //NSLog(@"%@",[dateFormatter stringFromDate:[NSDate date]]);
-    NSLog(@"date %@",currentDate);
     self.dataVideo.addFavoriteDate_ = currentDate;
-    [self.delegate VideoViewController:self didAddValue:dataVideo_ date:currentDate];
+    [self.delegate VideoViewController:self didAddValue:dataVideo_];
 }
 
 /*

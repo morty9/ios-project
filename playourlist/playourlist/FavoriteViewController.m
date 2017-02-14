@@ -13,32 +13,25 @@
 @interface FavoriteViewController () <UITableViewDataSource, UITableViewDelegate,UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate>
 {
     NSArray *searchResults;
-    VideoViewController* vvc;
     NSArray *arraySection;
     NSMutableArray *resultSection1;
     NSMutableArray *resultSection2;
-    NSDate *addDate;
 }
 
 @end
 
 @implementation FavoriteViewController
 
-@synthesize dataVideoF = dataVideoF_;
 @synthesize video_listF = video_listF_;
-@synthesize addDate = addDate_;
 
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
-        
-        vvc = [[VideoViewController alloc] init];
-        
+    
         arraySection = [[NSArray alloc] initWithObjects:@"Recently Added", @"More One Month", nil];
         resultSection1 = [[NSMutableArray alloc] init];
         resultSection2 = [[NSMutableArray alloc] init];
-        addDate = [[NSDate alloc] init];
         
         UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(touchEdit:)];
         rightItem.tintColor = [UIColor blueColor];
@@ -65,83 +58,31 @@
     self.searchController.searchBar.scopeButtonTitles = @[];
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
-
-//    NSDateComponents *dateComponents = [NSDateComponents new];
-//    //dateComponents.month = -1;
-//    dateComponents.minute = -1;
-//    NSDate* month = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self.addDate options:0];
-//    NSLog(@"last month %@",month);
-//    
-//    for (DataVideo* r in self.video_listF) {
-//        if(r.addFavoriteDate_ > month) {
-//            NSLog(@"test");
-//            [resultSection1 addObject:r];
-//        }else {
-//            NSLog(@"test2");
-//            [resultSection2 addObject:r];
-//        }
-//    }
-//    
-//    NSLog(@"section 1 %@",resultSection1);
-//    NSLog(@"section 2 %@",resultSection2);
-    //resultSection = [[arraySection allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
-    //[self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    BOOL checkArray = false;
+
     NSDateComponents *dateComponents = [NSDateComponents new];
     //dateComponents.month = -1;
     dateComponents.minute = -1;
     NSDate *d = [NSDate date];
     NSDate* month = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:d options:0];
-    NSMutableArray *tmpArray1 = [resultSection1 mutableCopy];
-    NSMutableArray *tmpArray2 = [resultSection2 mutableCopy];
-    NSLog(@"tmp 1 %@", tmpArray1);
-    NSLog(@"tmp 2 %@", tmpArray2);
-    
+    NSMutableArray *tmpArray1 = [[NSMutableArray alloc] init];
+    NSMutableArray *tmpArray2 = [[NSMutableArray alloc] init];
+
     for (DataVideo* r in self.video_listF) {
         if([r.addFavoriteDate_ compare:month] == NSOrderedDescending) {
-            NSLog(@"test");
-            if(resultSection1.count != 0) {
-                for (DataVideo* check in resultSection1) {
-                    if(r == check) {
-                        [tmpArray2 addObject:check];
-                        [tmpArray1 removeObject:check];
-                        checkArray = true;
-                    }
-                }
-                if(checkArray == false) {
-                    [tmpArray1 addObject:r];
-                }else {
-                    resultSection2 = tmpArray2;
-                }
-            }else {
-                [tmpArray1 addObject:r];
-            }
-            resultSection1 = tmpArray1;
+            [tmpArray1 addObject:r];
         }else {
-            NSLog(@"test2");
-            if(resultSection2.count != 0) {
-                for (DataVideo* check in resultSection2) {
-                    if(r == check) {
-                        [tmpArray2 removeObject:check];
-                        checkArray = true;
-                    }
-                }
-                if(checkArray == false) {
-                    [tmpArray2 addObject:r];
-                }
-            }else {
-                [tmpArray2 addObject:r];
-            }
-            resultSection2 = tmpArray2;
+            [tmpArray2 addObject:r];
         }
     }
-    
-    NSLog(@"section 1 %@",resultSection1);
-    NSLog(@"section 2 %@",resultSection2);
+
+    resultSection1 = tmpArray1;
+    resultSection2 = tmpArray2;
+
     [self.tableView reloadData];
 }
 
@@ -174,15 +115,9 @@
         }else if (section == 1){
             return resultSection2.count;
         }
-        //return video_listF_.count;
     }
     
     return 1;
-//    NSString *sectionTitle = [arraySection objectAtIndex:section];
-//    NSArray *sectionAnimals = [resultSection1 objectForKey:sectionTitle];
-//    return [sectionAnimals count];
-    
-   // return [sectionAnimals count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -238,7 +173,10 @@
 }
 
 - (void)searchForText:(NSString*)searchText {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
+    NSPredicate *pTitle = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
+    NSPredicate *pTags = [NSPredicate predicateWithFormat:@"tags_ contains[c] %@", searchText];
+    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
+    NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[pTitle, pTags]];
     NSLog(@"%@", [video_listF_ filteredArrayUsingPredicate:predicate]);
     searchResults = [video_listF_ filteredArrayUsingPredicate:predicate];
 }
