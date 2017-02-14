@@ -96,6 +96,8 @@
     dateComponents.minute = -1;
     NSDate *d = [NSDate date];
     NSDate* month = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:d options:0];
+    resultSection1 = [[NSMutableArray alloc] init];
+    resultSection2 = [[NSMutableArray alloc] init];
     NSMutableArray *tmpArray1 = [resultSection1 mutableCopy];
     NSMutableArray *tmpArray2 = [resultSection2 mutableCopy];
     NSLog(@"tmp 1 %@", tmpArray1);
@@ -126,12 +128,14 @@
             if(resultSection2.count != 0) {
                 for (DataVideo* check in resultSection2) {
                     if(r == check) {
-                        [tmpArray2 removeObject:check];
+                        //[tmpArray2 removeObject:check];
                         checkArray = true;
                     }
                 }
                 if(checkArray == false) {
                     [tmpArray2 addObject:r];
+                }else {
+                    resultSection2 = tmpArray2;
                 }
             }else {
                 [tmpArray2 addObject:r];
