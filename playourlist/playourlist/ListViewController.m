@@ -40,7 +40,7 @@
         
         self.title = @"Play Your List";
         
-        UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(touchFavorite:)];
+        UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(touchFavorite:)];
         rightItem.tintColor = [UIColor grayColor];
         self.navigationItem.rightBarButtonItem = rightItem;
         
