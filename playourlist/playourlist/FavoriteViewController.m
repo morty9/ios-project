@@ -52,7 +52,7 @@
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
     self.searchController.searchBar.delegate = self;
     self.tableView.tableHeaderView = self.searchController.searchBar;
     self.searchController.searchBar.scopeButtonTitles = @[];
@@ -98,6 +98,10 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
+    if(self.searchController.isActive) {
+        arraySection = [[NSArray alloc] initWithObjects:@"Result", nil];
+        return [arraySection count];
+    }
     return [arraySection count];
 }
 
@@ -173,11 +177,7 @@
 }
 
 - (void)searchForText:(NSString*)searchText {
-    NSPredicate *pTitle = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
-    NSPredicate *pTags = [NSPredicate predicateWithFormat:@"tags_ contains[c] %@", searchText];
-    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
-    NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[pTitle, pTags]];
-    NSLog(@"%@", [video_listF_ filteredArrayUsingPredicate:predicate]);
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@ OR tags_ contains[c] %@", searchText, searchText];
     searchResults = [video_listF_ filteredArrayUsingPredicate:predicate];
 }
 

@@ -23,6 +23,7 @@
     NSMutableArray<NSString*>* resultsTags;
     FavoriteViewController* favoriteViewController;
     VideoViewController* videoViewController;
+    NSMutableDictionary *tagsDictionary;
 }
 @end
 
@@ -47,6 +48,7 @@
         video_l = [[NSMutableDictionary alloc] init];
         sectionVideo = [[NSArray alloc] init];
         tagsVideos = [[NSMutableDictionary alloc] init];
+        tagsDictionary = [[NSMutableDictionary alloc] init];
         resultsTags = [[NSMutableArray<NSString*> alloc] initWithCapacity:10];
         fVideoArray_ = [[NSMutableArray<DataVideo*> alloc] init];
         favoriteViewController = [[FavoriteViewController alloc] init];
@@ -77,12 +79,7 @@
                     
                     DataVideo* v = [[DataVideo alloc] initWithId:tmp_id title:tmp_title date:tmp_date description:tmp_description thumbnails:tmp_thumbnails channels:tmp_channels tags:tmp_tags];
                     
-                    //NSLog(@"tags %@", v.tags_);
-                        
                     [video_list addObject:v];
-                    //[video_l setValue:v forKey:v.channels_];
-                    
-                    //NSLog(@"key %@", video_l);
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.tableView reloadData];
@@ -112,8 +109,6 @@
     self.searchController.searchBar.scopeButtonTitles = @[];
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
-    
-    //sectionVideo = [[video_l allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -121,27 +116,59 @@
     // Dispose of any resources that can be recreated.
 }
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    // Return the number of sections.
-//    return [sectionVideo count];
-//}
-//
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    return [sectionVideo objectAtIndex:section];
-//}
+- (void)createSectionDictionary:(NSMutableArray<NSString*>*)bot data:(NSMutableArray<DataVideo*>*)videos {
+    BOOL is = false;
+    NSMutableArray<DataVideo*>* tmp = [[NSMutableArray alloc] init];
+    [tagsDictionary setObject:tmp forKey:@"Others"];
+    
+    for (int i = 0; i < bot.count; i++)
+    {
+        NSMutableArray<DataVideo*> *tags = [[NSMutableArray<DataVideo*> alloc] init];
+        for (DataVideo* v in videos)
+        {
+            is = false;
+            for (NSString* str in v.tags_)
+            {
+                if (str == [bot objectAtIndex:i])
+                {
+                    [tags addObject:v];
+                    is = true;
+                    break;
+                }
+            }
+            if (is == false) {
+                NSMutableArray<DataVideo*>* tmp1 = [tagsDictionary objectForKey:@"Others"];
+                [tmp1 addObject:v];
+            }
+            
+        }
+        [tagsDictionary setObject:tags forKey:[bot objectAtIndex:i]];
+    }
+    
+    sectionVideo = [[tagsDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    [self.tableView reloadData];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return [sectionVideo count];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [sectionVideo objectAtIndex:section];
+}
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(self.searchController.isActive) {
         return searchResults.count;
     }else {
-        return video_list.count;
+        //return video_list.count;
+        NSString *sectionTitle = [sectionVideo objectAtIndex:section];
+        NSArray *sectionVideos = [tagsDictionary objectForKey:sectionTitle];
+        return [sectionVideos count];
     }
-    
-    //NSString *sectionTitle = [sectionVideo objectAtIndex:section];
-    //NSArray *sectionVideos = [video_l objectForKey:sectionTitle];
-    //return [sectionVideos count];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -159,14 +186,10 @@
     if(self.searchController.isActive) {
         dataVideo = [searchResults objectAtIndex:indexPath.row];
     }else {
-        dataVideo = [video_list objectAtIndex:indexPath.row];
+        NSString *sectionTitle = [sectionVideo objectAtIndex:indexPath.section];
+        NSArray *sectionVideos = [tagsDictionary objectForKey:sectionTitle];
+        dataVideo = [sectionVideos objectAtIndex:indexPath.row];
     }
-    
-//    NSString *sectionTitle = [sectionVideo objectAtIndex:indexPath.section];
-//    NSArray *sectionVideos = [video_l objectForKey:sectionTitle];
-//    NSString *animal = [sectionVideos objectAtIndex:indexPath.row];
-//    cell.textLabel.text = animal;
-    //cell.imageView.image = [UIImage imageNamed:[self getImageFilename:animal]];
 
     cell.titleCell.text = dataVideo.title_;
     cell.detailsCell.text = dataVideo.date_;
@@ -206,11 +229,7 @@
 }
 
 - (void)searchForText:(NSString*)searchText {
-    NSPredicate *pTitle = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
-    NSPredicate *pTags = [NSPredicate predicateWithFormat:@"tags_ contains[c] %@", searchText];
-    NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[pTitle, pTags]];
-    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@", searchText];
-    //NSLog(@"%@", [video_list filteredArrayUsingPredicate:predicate]);
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title_ contains[c] %@ OR tags_ contains[c] %@", searchText, searchText];
     searchResults = [video_list filteredArrayUsingPredicate:predicate];
 }
 
@@ -247,9 +266,9 @@
         }
     }
     
+    [resultsTags addObject:@"Others"];
     [self bestOfTags:resultsTags tagsVideos:tagsVideos];
-    
-    NSLog(@"tags final %@", tagsVideo_);
+    [self createSectionDictionary:resultsTags data:data];
 }
 
 - (void)atTags:(NSString*)tags allTags:(NSMutableDictionary*)tagsVideo {
@@ -281,18 +300,16 @@
 - (void)bestOfTags:(NSMutableArray<NSString*>*)bestOfTags tagsVideos:(NSMutableDictionary*)allTags {
     
     NSString* highIncrement = [[NSString alloc] initWithString:[[allTags allKeys] objectAtIndex:0]];
+    NSNumber *n = [[NSNumber alloc] initWithInt:2];
     
     for(NSString* stringTags in allTags) {
         if(stringTags != highIncrement) {
-            if([allTags valueForKey:stringTags] > [allTags valueForKey:highIncrement]) {
+            if([allTags valueForKey:stringTags] > n) {
                 highIncrement = stringTags;
                 [bestOfTags addObject:highIncrement];
             }
         }
     }
-    //[bestOfTags addObject:highIncrement];
-    NSLog(@"best tags %@",bestOfTags);
-    
 }
 
 /*
