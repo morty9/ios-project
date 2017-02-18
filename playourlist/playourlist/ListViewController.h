@@ -23,4 +23,6 @@
 
 - (void)atTags:(NSString*)tags allTags:(NSMutableDictionary*)tagsVideo;
 
+- (void)createSectionDictionary:(NSMutableArray<NSString*>*)bot data:(NSMutableArray<DataVideo*>*)videos;
+
 @end

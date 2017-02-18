@@ -33,6 +33,16 @@
         self.thumbnails_ = thumbnails_video;
         self.channels_ = channels_video;
         self.tags_ = tags_video;
+        
+        NSString* date = self.date_;
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+        NSDate* dte = [formatter dateFromString:date];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"dd-MM-yyyy - HH:mm"];
+        self.date_ = [dateFormatter stringFromDate:dte];
+
     }
     return self;
 }
