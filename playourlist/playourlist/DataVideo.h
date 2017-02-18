@@ -17,7 +17,7 @@
     NSString* description_v;
     NSString* thumbnails_v;
     NSString* channels_v;
-    NSArray<NSString*>* tags_v;
+    NSMutableArray<NSString*>* tags_v;
     NSDate *addFavoriteDate_v;
 }
 
@@ -27,9 +27,9 @@
 @property (nonatomic, strong) NSString* description_;
 @property (nonatomic, strong) NSString* thumbnails_;
 @property (nonatomic, strong) NSString* channels_;
-@property (nonatomic, strong) NSArray<NSString*>* tags_;
+@property (nonatomic, strong) NSMutableArray<NSString*>* tags_;
 @property (nonatomic, strong) NSDate *addFavoriteDate_;
 
-- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video channels:(NSString*)channels_video tags:(NSArray<NSString*>*)tags_video;
+- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video channels:(NSString*)channels_video tags:(NSMutableArray<NSString*>*)tags_video;
 
 @end

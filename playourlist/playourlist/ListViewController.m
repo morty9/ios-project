@@ -75,7 +75,7 @@
                     NSString* tmp_description = [[results valueForKey:@"snippet"] valueForKey:@"description"];
                     NSString* tmp_thumbnails = [[[[results valueForKey:@"snippet"] valueForKey:@"thumbnails"] valueForKey:@"medium"] valueForKey:@"url"];
                     NSString* tmp_channels = [[results valueForKey:@"snippet"] valueForKey:@"channelTitle"];
-                    NSArray<NSString*>* tmp_tags = [[results valueForKey:@"snippet"] valueForKey:@"tags"];
+                    NSMutableArray<NSString*>* tmp_tags = [[results valueForKey:@"snippet"] valueForKey:@"tags"];
                     
                     DataVideo* v = [[DataVideo alloc] initWithId:tmp_id title:tmp_title date:tmp_date description:tmp_description thumbnails:tmp_thumbnails channels:tmp_channels tags:tmp_tags];
                     
@@ -260,12 +260,17 @@
 
 - (void)tagsSort:(NSMutableDictionary*)tagsVideo_ dataVideos:(NSMutableArray<DataVideo*>*)data resultsTags:(NSMutableArray<NSString *>*)results {
     
+    NSString* str = [[NSString alloc] init];
+    //NSLog(@"aaa %@", results);
     for (DataVideo* v in data) {
         for(NSString* tags in v.tags_) {
-            [self atTags:tags allTags:tagsVideo_];
+            str = [tags lowercaseString];
+            [self atTags:str allTags:tagsVideo_];
         }
     }
     
+    //NSLog(@"tags %@", tagsVideos);
+    //[self removeOccurrences:tagsVideos];
     [resultsTags addObject:@"Others"];
     [self bestOfTags:resultsTags tagsVideos:tagsVideos];
     [self createSectionDictionary:resultsTags data:data];
@@ -299,6 +304,8 @@
 
 - (void)bestOfTags:(NSMutableArray<NSString*>*)bestOfTags tagsVideos:(NSMutableDictionary*)allTags {
     
+    //NSLog(@"all tags : %@", allTags);
+    
     NSString* highIncrement = [[NSString alloc] initWithString:[[allTags allKeys] objectAtIndex:0]];
     NSNumber *n = [[NSNumber alloc] initWithInt:2];
     
@@ -310,6 +317,17 @@
             }
         }
     }
+}
+
+- (void)removeOccurrences:(NSMutableArray<NSString*>*)tagsArray {
+    
+    for (int i = 0; i < tagsArray.count; i++) {
+        for (int j = 0; tagsArray.count; j++) {
+            
+        }
+    }
+    
+    //NSLog(@"lowercase %@",tagsReview);
 }
 
 /*

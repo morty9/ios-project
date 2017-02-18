@@ -23,7 +23,7 @@
 @synthesize tags_ = tags_v;
 @synthesize addFavoriteDate_ = addFavoriteDate_v;
 
-- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video channels:(NSString *)channels_video tags:(NSArray<NSString*>*)tags_video {
+- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video channels:(NSString *)channels_video tags:(NSMutableArray<NSString*>*)tags_video {
     self = [super init];
     if(self != nil) {
         self.id_ = id_video;
@@ -42,6 +42,21 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"dd-MM-yyyy - HH:mm"];
         self.date_ = [dateFormatter stringFromDate:dte];
+        
+        NSMutableArray<NSString*> *tmp_tags = [tags_video copy];
+        
+        for (int i = 0; i < tags_video.count; i++) {
+            [tmp_tags[i] lowercaseString];
+            for (int j = 0; tags_video.count; j++) {
+                [tmp_tags[j] lowercaseString];
+                if([tmp_tags objectAtIndex:i] == [tmp_tags objectAtIndex:j]) {
+                    [tmp_tags removeObjectAtIndex:j];
+                }
+            }
+        }
+        
+        tags_video = tmp_tags;
+        NSLog(@"aaaa %@",tags_video);
 
     }
     return self;
