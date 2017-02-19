@@ -193,7 +193,7 @@
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [video_listF_ removeObjectAtIndex:indexPath.section];
+        [video_listF_ removeObjectAtIndex:indexPath.row];
         if(indexPath.section == 0) {
             [resultSection1 removeObjectAtIndex:indexPath.row];
         }else if (indexPath.section == 1){
