@@ -39,10 +39,15 @@
     if(self != nil) {
         NSLog(@"init");
         
-        self.title = @"Play Your List";
+        //self.title = @"Play Your List";
+        self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo-liste2.png"]];
         
-        UIImage *image = [[UIImage imageNamed:@"heart.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(touchFavorite:)];
+    
+
+
+        
+        UIImage *image2 = [[UIImage imageNamed:@"heart.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithImage:image2 style:UIBarButtonItemStylePlain target:self action:@selector(touchFavorite:)];
         self.navigationItem.rightBarButtonItem = favoriteButton;
         favoriteButton.tintColor = [UIColor grayColor];
         
@@ -113,13 +118,7 @@
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
     
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.63 green:0.59 blue:0.87 alpha:1.0];
-    
-    //self.searchController.searchBar.barTintColor = [UIColor redColor];
-    
-    [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.05 green:0.43 blue:0.50 alpha:1.0]}];
-    [self.tableView reloadData];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.02 green:0.15 blue:0.25 alpha:1.0];
 }
 
 - (void)didReceiveMemoryWarning {
