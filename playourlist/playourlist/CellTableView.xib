@@ -27,7 +27,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Txz-PU-V3Y">
-                        <rect key="frame" x="8" y="283" width="384" height="37"/>
+                        <rect key="frame" x="8" y="283" width="233" height="37"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -37,17 +37,33 @@
                         <rect key="frame" x="8" y="57" width="384" height="214"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z7R-dy-312">
+                        <rect key="frame" x="339" y="284" width="26" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <state key="normal" image="Share"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yRN-ZQ-aSb">
+                        <rect key="frame" x="266" y="269" width="65" height="65"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <state key="normal" image="heart.png"/>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             </tableViewCellContentView>
             <connections>
                 <outlet property="detailsCell" destination="Txz-PU-V3Y" id="bXb-G1-aZn"/>
+                <outlet property="favoriteButton" destination="yRN-ZQ-aSb" id="bd5-yV-Yai"/>
+                <outlet property="shareButton" destination="z7R-dy-312" id="kqW-B6-Zlh"/>
                 <outlet property="thumbnailCell" destination="16z-lE-Qn1" id="pWz-MP-kke"/>
                 <outlet property="titleCell" destination="51y-xn-fTE" id="z2P-I5-7cW"/>
             </connections>
             <point key="canvasLocation" x="-139" y="50"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="Share" width="71" height="84"/>
+        <image name="heart.png" width="58" height="58"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

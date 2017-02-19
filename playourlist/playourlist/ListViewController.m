@@ -40,9 +40,11 @@
         
         self.title = @"Play Your List";
         
-        UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(touchFavorite:)];
-        rightItem.tintColor = [UIColor grayColor];
-        self.navigationItem.rightBarButtonItem = rightItem;
+        UIImage *image = [[UIImage imageNamed:@"heart.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(touchFavorite:)];
+        self.navigationItem.rightBarButtonItem = favoriteButton;
+        favoriteButton.tintColor = [UIColor grayColor];
+        
         
         video_list = [[NSMutableArray<DataVideo*> alloc] init];
         video_l = [[NSMutableDictionary alloc] init];
@@ -109,6 +111,14 @@
     self.searchController.searchBar.scopeButtonTitles = @[];
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
+    
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.63 green:0.59 blue:0.87 alpha:1.0];
+    
+    //self.searchController.searchBar.barTintColor = [UIColor redColor];
+    
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.05 green:0.43 blue:0.50 alpha:1.0]}];
 }
 
 - (void)didReceiveMemoryWarning {

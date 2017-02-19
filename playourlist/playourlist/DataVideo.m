@@ -40,7 +40,7 @@
         NSDate* dte = [formatter dateFromString:date];
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"dd-MM-yyyy - HH:mm"];
+        [dateFormatter setDateFormat:@"dd/MM/yyyy - HH:mm"];
         self.date_ = [dateFormatter stringFromDate:dte];
 
     }

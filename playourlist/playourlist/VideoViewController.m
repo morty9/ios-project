@@ -20,6 +20,7 @@
 @implementation VideoViewController
 
 @synthesize favoriteButton = _favoriteButton;
+@synthesize shareButton = _shareButton;
 @synthesize videoView = _videoView;
 @synthesize titleView = _titleView;
 @synthesize detailsView = _detailsView;
@@ -32,10 +33,6 @@
     
     if(self != nil) {
         //dataV = [[DataVideo alloc] init];
-        /*UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(touchShare:)];
-        self.navigationItem.rightBarButtonItem = shareButton;
-        shareButton.tintColor = [UIColor grayColor];
-        self.navigationItem.rightBarButtonItem = shareButton;*/
     }
     
     return self;
