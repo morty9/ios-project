@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSMutableArray<NSString*>* tags_;
 @property (nonatomic, strong) NSDate *addFavoriteDate_;
 
+/* Init */
 - (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video channels:(NSString*)channels_video tags:(NSMutableArray<NSString*>*)tags_video;
 
 @end

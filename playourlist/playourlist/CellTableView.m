@@ -34,11 +34,4 @@
     // Configure the view for the selected state
 }
 
-- (IBAction)touchShare:(id)sender {
-}
-
-- (IBAction)touchFavorite:(id)sender {
-}
-
-
 @end

@@ -15,6 +15,7 @@
 @protocol VideoViewControllerDelegate <NSObject>
 @optional
 
+/* Delegate method */
 - (void) VideoViewController:(VideoViewController*)videoViewController didAddValue:(DataVideo*)value;
 
 @end
@@ -35,6 +36,13 @@
 @property (nonatomic, strong) DataVideo* dataVideo;
 @property (nonatomic, weak) id<VideoViewControllerDelegate> delegate;
 
+/* Init */
+- (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
+
+/* Allows to share selected video */
 - (IBAction)touchShare:(id)sender;
+
+/* Add selected video to favorite list */
+- (IBAction)touchFavorite:(id)sender;
 
 @end
