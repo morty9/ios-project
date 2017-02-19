@@ -42,22 +42,6 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"dd-MM-yyyy - HH:mm"];
         self.date_ = [dateFormatter stringFromDate:dte];
-        
-        NSMutableArray<NSString*> *tmp_tags = [tags_video copy];
-        
-        for (int i = 0; i < tags_video.count; i++) {
-            [tmp_tags[i] lowercaseString];
-            for (int j = 0; tags_video.count; j++) {
-                [tmp_tags[j] lowercaseString];
-                if([tmp_tags objectAtIndex:i] == [tmp_tags objectAtIndex:j]) {
-                    [tmp_tags removeObjectAtIndex:j];
-                }
-            }
-        }
-        
-        tags_video = tmp_tags;
-        NSLog(@"aaaa %@",tags_video);
-
     }
     return self;
 }
