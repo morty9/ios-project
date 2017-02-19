@@ -32,8 +32,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionView;
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
-
 @property (nonatomic, strong) DataVideo* dataVideo;
 @property (nonatomic, weak) id<VideoViewControllerDelegate> delegate;
+
+- (IBAction)touchShare:(id)sender;
 
 @end

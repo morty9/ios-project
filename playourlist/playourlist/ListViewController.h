@@ -25,4 +25,6 @@
 
 - (void)createSectionDictionary:(NSMutableArray<NSString*>*)bot data:(NSMutableArray<DataVideo*>*)videos;
 
+- (void)favoriteButton:(id)sender dataVideo:(DataVideo*)currentData;
+
 @end

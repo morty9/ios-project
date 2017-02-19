@@ -7,12 +7,21 @@
 //
 
 #import "CellTableView.h"
+#import "VideoViewController.h"
+
+@interface CellTableView ()
+{
+    NSArray *sharingData;
+}
+
+@end
 
 @implementation CellTableView
 
 @synthesize thumbnailCell = _thumbnailCell;
 @synthesize titleCell = _titleCell;
 @synthesize detailsCell = _detailsCell;
+@synthesize data = data_;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -24,5 +33,12 @@
     [super setSelected:selected animated:animated];
     // Configure the view for the selected state
 }
+
+- (IBAction)touchShare:(id)sender {
+}
+
+- (IBAction)touchFavorite:(id)sender {
+}
+
 
 @end

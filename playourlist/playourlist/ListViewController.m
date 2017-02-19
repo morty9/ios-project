@@ -24,6 +24,7 @@
     FavoriteViewController* favoriteViewController;
     VideoViewController* videoViewController;
     NSMutableDictionary *tagsDictionary;
+    DataVideo *currentData;
 }
 @end
 
@@ -54,6 +55,7 @@
         resultsTags = [[NSMutableArray<NSString*> alloc] initWithCapacity:10];
         fVideoArray_ = [[NSMutableArray<DataVideo*> alloc] init];
         favoriteViewController = [[FavoriteViewController alloc] init];
+        currentData = [[DataVideo alloc] init];
         
         NSURLSession* urlSession = [NSURLSession sharedSession];
         NSString *urlString = [NSString stringWithFormat: @"https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=50&key=%@", APIKey];
@@ -199,12 +201,20 @@
     DataVideo* dataVideo = nil;
     if(self.searchController.isActive) {
         dataVideo = [searchResults objectAtIndex:indexPath.row];
+        //cell.favoriteButton.tag = indexPath.row;
+        currentData = [searchResults objectAtIndex:indexPath.row];
     }else {
         NSString *sectionTitle = [sectionVideo objectAtIndex:indexPath.section];
         NSArray *sectionVideos = [tagsDictionary objectForKey:sectionTitle];
         dataVideo = [sectionVideos objectAtIndex:indexPath.row];
+        //cell.favoriteButton.tag = indexPath.row;
+        currentData = [sectionVideos objectAtIndex:indexPath.row];
     }
-
+    
+    NSLog(@"test %@", currentData);
+    
+    [cell.favoriteButton addTarget:self action:@selector(favoriteButton:) forControlEvents:UIControlEventTouchUpInside];
+    
     cell.titleCell.text = dataVideo.title_;
     cell.detailsCell.text = dataVideo.date_;
     NSURL* urlImage = [NSURL URLWithString: dataVideo.thumbnails_];
@@ -216,6 +226,22 @@
     return cell;
 }
 
+- (void)favoriteButton:(id)sender {
+    NSLog(@"favorite touched");
+    //NSDate *currentDate = [NSDate date];
+    BOOL checkArray = false;
+    if(currentData != nil) {
+        for(DataVideo* check in self.fVideoArray) {
+            if(check == currentData) {
+                checkArray = true;
+            }
+        }
+        if(checkArray == false) {
+            [self.fVideoArray addObject:currentData];
+        }
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
