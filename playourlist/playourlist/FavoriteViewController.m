@@ -58,7 +58,6 @@
     self.searchController.searchBar.scopeButtonTitles = @[];
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
-    
     [self.tableView reloadData];
 }
 
@@ -95,19 +94,21 @@
     [self.tableView setEditing:!self.tableView.editing animated:YES];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
     if(self.searchController.isActive) {
-        arraySection = [[NSArray alloc] initWithObjects:@"Result", nil];
+        return 1;
+    }else {
         return [arraySection count];
     }
-    return [arraySection count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return [arraySection objectAtIndex:section];
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (self.searchController.isActive) {
+        return 0;
+    } else {
+        return [arraySection objectAtIndex:section];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -144,7 +145,6 @@
         }else if(indexPath.section == 1) {
             dataVideo = [resultSection2 objectAtIndex:indexPath.row];
         }
-        //dataVideo = [video_listF_ objectAtIndex:indexPath.row];
     }
     
     cell.titleCell.text = dataVideo.title_;
@@ -193,7 +193,12 @@
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [video_listF_ removeObjectAtIndex:indexPath.row];
+        [video_listF_ removeObjectAtIndex:indexPath.section];
+        if(indexPath.section == 0) {
+            [resultSection1 removeObjectAtIndex:indexPath.row];
+        }else if (indexPath.section == 1){
+            [resultSection2 removeObjectAtIndex:indexPath.row];
+        }
         [tableView reloadData];
     }
 }

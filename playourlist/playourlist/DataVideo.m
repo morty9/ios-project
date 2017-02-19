@@ -23,7 +23,7 @@
 @synthesize tags_ = tags_v;
 @synthesize addFavoriteDate_ = addFavoriteDate_v;
 
-- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video channels:(NSString *)channels_video tags:(NSArray<NSString*>*)tags_video {
+- (instancetype) initWithId:(NSString*)id_video title:(NSString*)title_video date:(NSString*)date_video description:(NSString*)description_video thumbnails:(NSString*)thumbnails_video channels:(NSString *)channels_video tags:(NSMutableArray<NSString*>*)tags_video {
     self = [super init];
     if(self != nil) {
         self.id_ = id_video;
@@ -42,7 +42,6 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"dd-MM-yyyy - HH:mm"];
         self.date_ = [dateFormatter stringFromDate:dte];
-
     }
     return self;
 }

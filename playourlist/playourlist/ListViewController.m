@@ -55,7 +55,6 @@
         
         NSURLSession* urlSession = [NSURLSession sharedSession];
         NSString *urlString = [NSString stringWithFormat: @"https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=50&key=%@", APIKey];
-        //NSString *urlString = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/search?part=snippet&key=%@",APIKey];
         NSURL *url = [[NSURL alloc] initWithString:urlString];
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         NSURLSessionDataTask* dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
@@ -66,7 +65,7 @@
                 NSData* jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
                 NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
                 NSMutableArray* videos = [NSMutableArray arrayWithArray:[jsonDict valueForKey:@"items"]];
-                    
+                
                 for(NSDictionary* results in videos) {
                         
                     NSString* tmp_id = [results valueForKey:@"id"];
@@ -75,12 +74,12 @@
                     NSString* tmp_description = [[results valueForKey:@"snippet"] valueForKey:@"description"];
                     NSString* tmp_thumbnails = [[[[results valueForKey:@"snippet"] valueForKey:@"thumbnails"] valueForKey:@"medium"] valueForKey:@"url"];
                     NSString* tmp_channels = [[results valueForKey:@"snippet"] valueForKey:@"channelTitle"];
-                    NSArray<NSString*>* tmp_tags = [[results valueForKey:@"snippet"] valueForKey:@"tags"];
+                    NSMutableArray<NSString*>* tmp_tags = [[results valueForKey:@"snippet"] valueForKey:@"tags"];
                     
                     DataVideo* v = [[DataVideo alloc] initWithId:tmp_id title:tmp_title date:tmp_date description:tmp_description thumbnails:tmp_thumbnails channels:tmp_channels tags:tmp_tags];
                     
                     [video_list addObject:v];
-                    
+        
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.tableView reloadData];
                     });
@@ -109,6 +108,9 @@
     self.searchController.searchBar.scopeButtonTitles = @[];
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
+    
+    [self.tableView reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -142,29 +144,34 @@
             }
             
         }
-        [tagsDictionary setObject:tags forKey:[bot objectAtIndex:i]];
+        [tagsDictionary setObject:tags forKey:[self formattingString:bot[i]]];
     }
+    
     
     sectionVideo = [[tagsDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     [self.tableView reloadData];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return [sectionVideo count];
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if(self.searchController.isActive) {
+        return 1;
+    }else {
+        return sectionVideo.count;
+    }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return [sectionVideo objectAtIndex:section];
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if(self.searchController.isActive) {
+        return 0;
+    }else {
+        return [sectionVideo objectAtIndex:section];
+    }
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(self.searchController.isActive) {
         return searchResults.count;
     }else {
-        //return video_list.count;
         NSString *sectionTitle = [sectionVideo objectAtIndex:section];
         NSArray *sectionVideos = [tagsDictionary objectForKey:sectionTitle];
         return [sectionVideos count];
@@ -210,7 +217,9 @@
     if(self.searchController.isActive) {
         data_ = [searchResults objectAtIndex:indexPath.row];
     }else {
-        data_ = [video_list objectAtIndex:indexPath.row];
+        NSString *sectionTitle = [sectionVideo objectAtIndex:indexPath.section];
+        NSArray *sectionVideos = [tagsDictionary objectForKey:sectionTitle];
+        data_ = [sectionVideos objectAtIndex:indexPath.row];
     }
     videoViewController.dataVideo = data_;
     videoViewController.delegate = self;
@@ -262,13 +271,22 @@
     
     for (DataVideo* v in data) {
         for(NSString* tags in v.tags_) {
-            [self atTags:tags allTags:tagsVideo_];
+            NSString *formattingString = [[NSString alloc] init];
+            formattingString = [tags lowercaseString];
+            [self atTags:formattingString allTags:tagsVideo_];
         }
     }
-    
+
     [resultsTags addObject:@"Others"];
     [self bestOfTags:resultsTags tagsVideos:tagsVideos];
     [self createSectionDictionary:resultsTags data:data];
+}
+
+- (NSString*)formattingString:(NSString*)string {
+    
+    string = [string stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[string substringToIndex:1] uppercaseString]];
+    
+    return string;
 }
 
 - (void)atTags:(NSString*)tags allTags:(NSMutableDictionary*)tagsVideo {
