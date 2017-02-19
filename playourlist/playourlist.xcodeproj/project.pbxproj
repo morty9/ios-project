@@ -152,7 +152,7 @@
 				TargetAttributes = {
 					084AA8E21E40E9BF000A9268 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 9GDJ425SV6;
+						DevelopmentTeam = B5H2YL5YCB;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -314,10 +314,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 9GDJ425SV6;
+				DEVELOPMENT_TEAM = B5H2YL5YCB;
 				INFOPLIST_FILE = playourlist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.esgi.playourlist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.esgiProject.playourlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -326,10 +326,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 9GDJ425SV6;
+				DEVELOPMENT_TEAM = B5H2YL5YCB;
 				INFOPLIST_FILE = playourlist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.esgi.playourlist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.esgiProject.playourlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
