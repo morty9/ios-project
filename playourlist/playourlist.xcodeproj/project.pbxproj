@@ -144,6 +144,9 @@
 		084AA8DB1E40E9BF000A9268 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					0,
+				);
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Bérangère La Touche";
 				TargetAttributes = {
