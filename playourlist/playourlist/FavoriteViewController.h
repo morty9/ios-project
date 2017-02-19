@@ -20,4 +20,19 @@
 @property (nonatomic, strong) NSMutableArray* video_listF;
 @property (strong, nonatomic) UISearchController *searchController;
 
+/* Init */
+- (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
+
+/* Sort data and put videos in the good section */
+- (void)viewDidAppear:(BOOL)animated;
+
+/* Edit list */
+- (void) touchEdit:(id)sender;
+
+/* Update table view with search result */
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController;
+
+/* Get videos with the same title research */
+- (void)searchForText:(NSString*)searchText;
+
 @end

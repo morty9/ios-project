@@ -28,13 +28,15 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
+        
+        self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo-liste2.png"]];
     
         arraySection = [[NSArray alloc] initWithObjects:@"Recently Added", @"More One Month", nil];
         resultSection1 = [[NSMutableArray alloc] init];
         resultSection2 = [[NSMutableArray alloc] init];
         
         UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(touchEdit:)];
-        rightItem.tintColor = [UIColor blueColor];
+        rightItem.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = rightItem;
         
         [self.tableView reloadData];
@@ -46,7 +48,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
@@ -64,8 +66,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 
     NSDateComponents *dateComponents = [NSDateComponents new];
-    //dateComponents.month = -1;
-    dateComponents.minute = -1;
+    dateComponents.second = -30;
     NSDate *d = [NSDate date];
     NSDate* month = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:d options:0];
     NSMutableArray *tmpArray1 = [[NSMutableArray alloc] init];
@@ -83,11 +84,6 @@
     resultSection2 = tmpArray2;
 
     [self.tableView reloadData];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void) touchEdit:(id)sender {
@@ -202,15 +198,5 @@
         [tableView reloadData];
     }
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

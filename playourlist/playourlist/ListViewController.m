@@ -38,16 +38,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
-        NSLog(@"init");
         
-        //self.title = @"Play Your List";
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo-liste2.png"]];
-        
     
-
-
-        
-        UIImage *image2 = [[UIImage imageNamed:@"heart.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage *image2 = [[UIImage imageNamed:@"heart3.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithImage:image2 style:UIBarButtonItemStylePlain target:self action:@selector(touchFavorite:)];
         self.navigationItem.rightBarButtonItem = favoriteButton;
         favoriteButton.tintColor = [UIColor grayColor];
@@ -118,14 +112,13 @@
     self.tableView.tableHeaderView = self.searchController.searchBar;
     self.searchController.searchBar.scopeButtonTitles = @[];
     self.definesPresentationContext = YES;
-    [self.searchController.searchBar sizeToFit];
+    [self.searchController.searchBar setBarTintColor:[UIColor colorWithRed:0.16 green:0.27 blue:0.35 alpha:1.0]];
     
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.02 green:0.15 blue:0.25 alpha:1.0];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    UINavigationBar *bar = [self.navigationController navigationBar];
+    [bar setTintColor:[UIColor whiteColor]];
+    
+    [self.tableView reloadData];
 }
 
 - (void)createSectionDictionary:(NSMutableArray<NSString*>*)bot data:(NSMutableArray<DataVideo*>*)videos {
@@ -216,9 +209,7 @@
     NSURL* urlImage = [NSURL URLWithString: dataVideo.thumbnails_];
     NSData* img = [[NSData alloc] initWithContentsOfURL: urlImage];
     cell.thumbnailCell.image = [UIImage imageWithData:img];
-    cell.layer.borderColor = [UIColor blackColor].CGColor;
-    cell.layer.borderWidth = 4.0f;
-    
+
     return cell;
 }
 
@@ -266,6 +257,7 @@
     [self presentViewController:shareController animated:YES completion:nil];
     
 }
+
 
 - (DataVideo*) tableView:(UITableView *)tableView didSelect:(NSIndexPath *)indexPath {
     DataVideo* data_ = nil;
@@ -399,15 +391,5 @@
         }
     }
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

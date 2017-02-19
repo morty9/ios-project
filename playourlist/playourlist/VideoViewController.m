@@ -13,7 +13,6 @@
 @interface VideoViewController ()
 {
     NSArray *sharingData;
-    //DataVideo* dataV;
 }
 @end
 
@@ -32,7 +31,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self != nil) {
-        //dataV = [[DataVideo alloc] init];
+        self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo-liste2.png"]];
     }
     
     return self;
@@ -52,10 +51,6 @@
     sharingData = [[NSArray alloc] initWithObjects:url, nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (IBAction)touchShare:(id)sender {
     UIActivityViewController *shareController = [[UIActivityViewController alloc] initWithActivityItems: sharingData  applicationActivities:nil];
@@ -69,15 +64,5 @@
     self.dataVideo.addFavoriteDate_ = currentDate;
     [self.delegate VideoViewController:self didAddValue:dataVideo_];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
